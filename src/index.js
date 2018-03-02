@@ -1,10 +1,3 @@
-// import React from 'react';
-// import ReactDOM from 'react-dom';
-// import App from './components/App/App';
-//
-// ReactDOM.render(<App />, document.getElementById('app'));
-//
-
 import { AppContainer } from 'react-hot-loader';
 import React from 'react';
 import ReactDOM from 'react-dom';
