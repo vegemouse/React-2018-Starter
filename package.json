@@ -4,7 +4,7 @@
   "description": "Very minimal starter for React applications",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --progress --colors --config ./webpack.config.js",
+    "start": "webpack-dev-server --progress --colors",
     "clean": "rimraf dist node_modules",
     "test": "jest ./src"
   },
@@ -14,8 +14,7 @@
     "express": "^4.16.2",
     "jest-cli": "^22.4.2",
     "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "rimraf": "^2.6.2"
+    "react-dom": "^16.2.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -29,9 +28,14 @@
     "enzyme-adapter-react-16": "^1.1.1",
     "html-webpack-plugin": "^3.0.4",
     "jest": "^22.4.2",
+    "node-sass": "^4.7.2",
     "react-hot-loader": "^4.0.0",
     "react-test-renderer": "^16.2.0",
+    "rimraf": "^2.6.2",
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.20.2",
     "webpack": "^4.0.1",
+    "webpack-cli": "^2.0.10",
     "webpack-dev-server": "^3.1.0",
     "webpack-node-externals": "^1.6.0"
   },

@@ -1,37 +1,66 @@
+// Based on https://medium.freecodecamp.org/learn-webpack-for-react-a36d4cac5060
+
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const port = process.env.PORT || 8080;
 
 module.exports = {
-  entry: [
-    'react-hot-loader/patch',
-    './src/index.js'
-  ],
+  mode: 'development',
+  entry: ['react-hot-loader/patch', './src/index.js'],
+  output: {
+    filename: 'bundle.[hash].js',
+    publicPath: '/'
+  },
+  devtool: 'inline-source-map',
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(js)$/,
         exclude: /node_modules/,
-        loaders: ["babel-loader"],
+        use: ['babel-loader']
       },
       {
         test: /\.css$/,
-        use: [ 'style-loader', 'css-loader' ]
+        use: [
+          {
+            loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              camelCase: true,
+              sourceMap: true
+            }
+          }
+        ]
+      },
+      {
+        test: /\.scss$/,
+        use: [{
+            loader: "style-loader"
+        }, {
+            loader: "css-loader"
+        }, {
+            loader: "sass-loader"
+        }]
       }
     ]
   },
-  resolve: {
-    extensions: ['*', '.js', '.jsx']
-  },
-  output: {
-    path: __dirname + '/dist',
-    publicPath: '/',
-    filename: 'bundle.js'
-  },
   plugins: [
-    new webpack.HotModuleReplacementPlugin()
+    new HtmlWebpackPlugin({
+      template: 'public/index.html',
+      // favicon: 'public/favicon.ico'
+    }),
+    new webpack.HotModuleReplacementPlugin(),
   ],
   devServer: {
-    contentBase: './dist',
-    hot: true
-  },
-  performance: { hints: false }
+    host: 'localhost',
+    port: port,
+    historyApiFallback: true,
+    open: true,
+    hot: true,
+    inline: true
+  }
 }
