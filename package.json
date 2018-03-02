@@ -4,25 +4,38 @@
   "description": "Very minimal starter for React applications",
   "main": "index.js",
   "scripts": {
-    "build": "npm run build-server && npm run build-client",
-    "build-server": "babel src/server --out-dir ./dist",
-    "build-client": "babel src/client --copy-files --out-dir ./dist/public",
-    "start": "node ./dist/index.js",
+    "start": "webpack-dev-server --progress --colors --config ./webpack.config.js",
+    "clean": "rimraf dist node_modules",
     "test": "jest ./src"
   },
-  "author": "",
+  "author": "Maxwell Cady",
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.2",
     "jest-cli": "^22.4.2",
     "react": "^16.2.0",
-    "react-dom": "^16.2.0"
+    "react-dom": "^16.2.0",
+    "rimraf": "^2.6.2"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.3",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
-    "jest": "^22.4.2"
+    "babel-preset-stage-2": "^6.24.1",
+    "css-loader": "^0.28.10",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "html-webpack-plugin": "^3.0.4",
+    "jest": "^22.4.2",
+    "react-hot-loader": "^4.0.0",
+    "react-test-renderer": "^16.2.0",
+    "webpack": "^4.0.1",
+    "webpack-dev-server": "^3.1.0",
+    "webpack-node-externals": "^1.6.0"
+  },
+  "jest": {
+    "setupTestFrameworkScriptFile": "./src/enzyme.setup.js"
   }
 }
