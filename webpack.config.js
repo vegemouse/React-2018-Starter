@@ -1,66 +1,31 @@
-// Based on https://medium.freecodecamp.org/learn-webpack-for-react-a36d4cac5060
+const webpackMerge = require('webpack-merge');
 
-const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const buildValidations = require('./build-utils/build-validations');
+const commonConfig = require('./build-utils/webpack.common');
 
-const port = process.env.PORT || 8080;
+// 'env' will contain the environment variable from 'scripts'
+// section in 'package.json'.
+// console.log(env); => { env: 'dev' }
+module.exports = env => {
 
-module.exports = {
-  mode: 'development',
-  entry: ['react-hot-loader/patch', './src/index.js'],
-  output: {
-    filename: 'bundle.[hash].js',
-    publicPath: '/'
-  },
-  devtool: 'inline-source-map',
-  module: {
-    rules: [
-      {
-        test: /\.(js)$/,
-        exclude: /node_modules/,
-        use: ['babel-loader']
-      },
-      {
-        test: /\.css$/,
-        use: [
-          {
-            loader: 'style-loader'
-          },
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true,
-              camelCase: true,
-              sourceMap: true
-            }
-          }
-        ]
-      },
-      {
-        test: /\.scss$/,
-        use: [{
-            loader: "style-loader"
-        }, {
-            loader: "css-loader"
-        }, {
-            loader: "sass-loader"
-        }]
-      }
-    ]
-  },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: 'public/index.html',
-      // favicon: 'public/favicon.ico'
-    }),
-    new webpack.HotModuleReplacementPlugin(),
-  ],
-  devServer: {
-    host: 'localhost',
-    port: port,
-    historyApiFallback: true,
-    open: true,
-    hot: true,
-    inline: true
+  // We use 'buildValidations' to check for the 'env' flag
+  if (!env) {
+    throw new Error(buildValidations.ERR_NO_ENV_FLAG);
   }
-}
+
+  // Select which Webpack configuration to use; development
+  // or production
+  // console.log(env.env); => dev
+  const envConfig = require(`./build-utils/webpack.${env.env}.js`);
+
+  // 'webpack-merge' will combine our shared configurations, the
+  // environment specific configurations and any addons we are
+  // including
+  const mergedConfig = webpackMerge(
+    commonConfig,
+    envConfig
+  );
+
+  // Then return the final configuration for Webpack
+  return mergedConfig;
+};
